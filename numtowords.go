@@ -3,12 +3,15 @@ package numtowords
 import "fmt"
 
 // MaxNum is the maximum number that can be converted to words
-const MaxNum = 9999
+const MaxNum = 999
+
+// MinNum is the minimum number that can be converted to words
+const MinNum = -999
 
 // Convert converts a specified number to words
 func Convert(num int) (string, error) {
-	if num > MaxNum || num < 0 {
-		return "", fmt.Errorf("Can only convert numbers between %v and %v", 0, MaxNum)
+	if num > MaxNum || num < MinNum {
+		return "", fmt.Errorf("Can only convert numbers between %v and %v", MinNum, MaxNum)
 	}
 	if num == 0 {
 		return "zero", nil
@@ -16,6 +19,10 @@ func Convert(num int) (string, error) {
 	units := [20]string{"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"}
 	tens := [8]string{"twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"}
 	result := ""
+	if num < 0 {
+		result += "minus "
+		num = -num
+	}
 	if num > 99 {
 		hundredindex := num / 100
 		result += units[hundredindex] + " hundred"

@@ -12,9 +12,9 @@ func TestInvalidInput(t *testing.T) {
 		t.Log("Expected error for input greater than MaxNum, got nil")
 		t.Fail()
 	}
-	_, err = numtowords.Convert(-1)
+	_, err = numtowords.Convert(numtowords.MinNum - 1)
 	if err == nil {
-		t.Log("Expected error for negative input, got nil")
+		t.Log("Expected error for input less than MinNum, got nil")
 		t.Fail()
 	}
 }
@@ -73,6 +73,29 @@ func TestHundreds(t *testing.T) {
 		340: "three hundred and forty",
 		313: "three hundred and thirteen",
 		700: "seven hundred",
+	}
+	for k, v := range testCases {
+		t.Logf("Testing for the number %v", k)
+		result, err := numtowords.Convert(k)
+		if err != nil {
+			t.Logf("Unexpected error for input %d", k)
+			t.Fail()
+		}
+		if result != v {
+			t.Logf("Expected '%s' for input %d, got '%s'", v, k, result)
+			t.Fail()
+		}
+	}
+}
+
+func TestNegativeNumbers(t *testing.T) {
+	testCases := map[int]string{
+		0:    "zero",
+		-1:   "minus one",
+		-15:  "minus fifteen",
+		-123: "minus one hundred and twenty three",
+		-109: "minus one hundred and nine",
+		-980: "minus nine hundred and eighty",
 	}
 	for k, v := range testCases {
 		t.Logf("Testing for the number %v", k)

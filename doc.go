@@ -1,3 +1,3 @@
 // Package numtowords provides a function to convert numbers to words
-// The first version of this package can convert positive numbers from 0 to MaxNum
+// Currently, it converts numbers between -999 to 999 only.
 package numtowords
